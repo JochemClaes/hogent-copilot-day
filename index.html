@@ -175,8 +175,6 @@ main{padding-block-start:clamp(2rem,3.4vw,2.5rem)}
 .box-navy{background:var(--cp-navy-soft);border:1px solid var(--cp-navy-border)}
 .card.box-navy{margin-block:0 1.1rem;border-inline-start:5px solid var(--cp-navy)}
 .card.box-navy h3{color:var(--cp-navy-ink);font-size:1.05rem;margin-block-end:.45rem}
-.agenda-kop{font-size:1.02rem;margin-block-start:1.5rem}
-
 .box ul{margin:0;padding-inline-start:1.15rem}
 .box li{margin-block-end:.5rem}
 .box li:last-child{margin-block-end:0}
@@ -184,14 +182,6 @@ main{padding-block-start:clamp(2rem,3.4vw,2.5rem)}
 .bronnen{list-style:none;margin:.8rem 0 0;padding:0}
 .bronnen li{margin-block-end:.45rem;padding-inline-start:1.3rem;position:relative}
 .bronnen li::before{content:"";position:absolute;inset-inline-start:0;inset-block-start:.58em;inline-size:7px;block-size:7px;border-radius:50%;background:var(--cp-accent)}
-
-.tbl-wrap{overflow-x:auto;margin-block-start:.9rem;border:1px solid var(--cp-border);border-radius:var(--radius-sm)}
-table.agenda{border-collapse:collapse;inline-size:100%;font-size:.95rem}
-table.agenda th,table.agenda td{text-align:start;padding:.6rem .9rem;border-block-end:1px solid var(--cp-border)}
-table.agenda thead th{background:var(--cp-accent);color:var(--cp-accent-fg);font-size:.78rem;letter-spacing:.07em;text-transform:uppercase}
-table.agenda tbody tr:last-child td{border-block-end:0}
-table.agenda tbody tr:nth-child(even){background:var(--cp-surface-soft)}
-table.agenda td:first-child{font-weight:600;color:var(--cp-accent-hover)}
 
 .eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cp-current-ink);margin-block-end:.4rem}
 
@@ -652,12 +642,6 @@ var ANKERS = [
   { lo: 9, hi: 10, t: "9 tot 10, **Frontier**: ik zet agents in voor complex werk, ik herontwerp processen rond wat AI goed doet, en ik deel afspraken en werkwijzen met anderen" }
 ];
 
-var AGENDA = [
-  ["Gezamenlijke sessies", "Alle deelnemers"],
-  ["Onderwijssessies", "Onderwijsmedewerkers"],
-  ["ICT-sessies", "ICT-medewerkers"]
-];
-
 var FREQ = ["Nooit", "Minder dan een keer per maand", "Enkele keren per maand", "Wekelijks", "Dagelijks", "Meerdere keren per dag"];
 
 var QUESTIONS = [
@@ -727,7 +711,7 @@ var QUESTIONS = [
     id: "q10", nr: 10, deel: "A", sec: "A4", type: "radio",
     title: "Naar welk sessieblok kijk je het meest uit?",
     hint: "Een antwoord",
-    opts: AGENDA.map(function (rij) { return rij[0]; })
+    opts: ["Gezamenlijke sessies", "Onderwijssessies", "ICT-sessies"]
   },
   {
     id: "q11", nr: 11, deel: "A", sec: "A4", type: "longtext",
@@ -874,8 +858,6 @@ var TEKST = {
     { t: "Microsoft Work Trend Index 2026, Agents, human agency, and the opportunity for every organization", u: "https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization" },
     { t: "The New Future of Work Reader, een onderzoekshub van Microsoft", u: "https://microsoft.github.io/nfw-reader/" }
   ],
-  agendaTitel: "Agenda",
-  agendaNoot: "Vereenvoudigd overzicht van de sessieblokken.",
   introA: "Dit deel hebben we nodig. Het duurt ongeveer 5 minuten.",
   kaderB: "Dit deel is je persoonlijke huiswerk en is vrijblijvend. Vul je het in, dan krijg je van het team van Microsoft een prompt op maat of een persoonlijk coachingmoment, vertrekkend van jouw eigen proces. Hoe concreter je antwoord, hoe bruikbaarder wat je terugkrijgt.",
   introC: "Wat je thuis al doet, zegt vaak meer over je startpunt dan wat je op het werk gebruikt. Dit deel is volledig vrijblijvend.",
@@ -1720,11 +1702,6 @@ if (typeof module !== "undefined" && module.exports) module.exports = HOGENTExpo
       })));
     });
 
-    var rijen = el("tbody");
-    AGENDA.forEach(function (r) {
-      rijen.appendChild(el("tr", {}, [el("td", { text: r[0] }), el("td", { text: r[1] })]));
-    });
-
     host.appendChild(el("section", { class: "card card-lead", "aria-labelledby": "introKop" }, [
       el("h2", { id: "introKop", text: "Over deze vragenlijst" }),
       el("p", { class: "q-lead", text: TEKST.intro }),
@@ -1735,16 +1712,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = HOGENTExpo
         el("h3", { text: TEKST.waaromTitel }),
         el("p", { text: TEKST.waarom }),
         bronnen
-      ]),
-      el("h3", { class: "agenda-kop", text: TEKST.agendaTitel }),
-      el("p", { class: "q-lead", text: TEKST.agendaNoot }),
-      el("div", { class: "tbl-wrap" }, el("table", { class: "agenda" }, [
-        el("thead", {}, el("tr", {}, [
-          el("th", { scope: "col", text: "Sessieblok" }),
-          el("th", { scope: "col", text: "Doelgroep" })
-        ])),
-        rijen
-      ]))
+      ])
     ]));
 
     var naam = el("input", { type: "text", id: "idNaam", autocomplete: "name", value: state.naam, maxlength: "120" });
